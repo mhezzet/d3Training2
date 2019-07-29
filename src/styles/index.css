@@ -30,6 +30,11 @@ body {
 
 .main {
   grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding: 4rem;
 }
 
 .nav-links {
