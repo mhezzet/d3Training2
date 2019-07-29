@@ -4,12 +4,71 @@
 
 @tailwind utilities;
 
-
 @font-face {
   font-family: roboto;
   src: url(../fonts/Roboto-Regular.ttf);
 }
 
-body{
+body {
   font-family: roboto;
+}
+
+.whole {
+  display: grid;
+  grid-template-areas:
+    "side main"
+    "side main";
+  grid-template-columns: 200px auto;
+  grid-template-rows: 2fr;
+  min-height: 100vh;
+}
+
+.side {
+  grid-area: side;
+  background-color: #1d2228;
+}
+
+.main {
+  grid-area: main;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nav-link {
+  padding: 0.6rem 1rem;
+  color: #d2d3d4;
+}
+
+.nav-link:hover {
+  color: #7d4011;
+  background-color: #fb8122;
+}
+
+.nav-link-active {
+  color: #7d4011;
+  background-color: #fb8122;
+}
+
+.title {
+  color: #d2d3d4;
+  padding: 2rem 0.5rem;
+  font-size: 24px;
+}
+
+@media only screen and (max-width: 600px) {
+  .whole {
+    grid-template-areas:
+      "side side"
+      "main main";
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content auto;
+  }
+  .nav-link {
+    text-align: center;
+    padding: 0.1rem 1rem;
+  }
 }

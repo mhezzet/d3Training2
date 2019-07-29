@@ -1,11 +1,6 @@
 import React from "react"
-import Header from "../layout/header"
+import Layout from "../layout/layout"
 
 export default function Third() {
-  return (
-    <>
-      <Header />
-      <div>hello iam third</div>
-    </>
-  )
+  return <Layout>hello iam third</Layout>
 }

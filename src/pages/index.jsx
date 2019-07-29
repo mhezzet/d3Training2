@@ -1,11 +1,6 @@
 import React from "react"
-import Header from "../layout/header"
+import Layout from "../layout/layout"
 
-const IndexPage = () => (
-  <>
-    <Header />
-    <h1>Hello iam first component</h1>
-  </>
-)
+const IndexPage = () => <Layout>hello iam frist example</Layout>
 
 export default IndexPage

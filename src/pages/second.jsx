@@ -1,11 +1,10 @@
 import React from "react"
-import Header from "../layout/header"
+import Layout from "../layout/layout"
 
 export default function Second() {
   return (
-    <>
-      <Header />
+    <Layout>
       <div>hello iam second</div>
-    </>
+    </Layout>
   )
 }
