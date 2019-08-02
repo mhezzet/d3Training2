@@ -4,7 +4,9 @@ import { Link } from "gatsby"
 
 export default function Layout(props) {
   const location = window.location.pathname
-  const title = location.substring(1) ? location.substring(1) : "first example"
+  const title = location.substring(1)
+    ? location.substring(1)
+    : "responsive bar chart"
 
   return (
     <>

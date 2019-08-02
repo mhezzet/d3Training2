@@ -15,7 +15,7 @@ export default function IndexPage() {
 
   return (
     <Layout>
-      <svg ref={svg} width="100%" height="90vh" />
+      <svg ref={svg} width="100%" height="100vh" />
     </Layout>
   )
 }
@@ -83,6 +83,7 @@ function d3Render(selection, props) {
     .attr("class", "x-axis")
     .attr("transform", `translate(0,${canvasInnerHeight})`)
     .selectAll(".tick text")
+    .style("fill", "#1d2228")
     .style("font-size", tickScale(canvasWidth))
 
   graph
@@ -90,6 +91,7 @@ function d3Render(selection, props) {
     .call(yAxis)
     .attr("class", "y-axis")
     .selectAll(".tick text")
+    .style("fill", "#1d2228")
     .style("font-size", tickScale(canvasWidth))
 
   //bars
@@ -102,6 +104,7 @@ function d3Render(selection, props) {
     .attr("width", xScale.bandwidth())
     .attr("height", d => canvasInnerHeight - yScale(d.revenue))
     .attr("y", d => yScale(d.revenue))
+    .style("fill", "#1d2228")
 
   //title
   canvas
@@ -110,6 +113,7 @@ function d3Render(selection, props) {
     .attr("x", "50%")
     .attr("y", 100)
     .style("font-size", titleScale(canvasWidth))
+    .style("fill", "#1d2228")
 
   //x-label
   canvas
@@ -118,6 +122,7 @@ function d3Render(selection, props) {
     .attr("x", "50%")
     .attr("y", canvasHeight - xLabelYScale(canvasWidth))
     .style("font-size", axesLabelScale(canvasWidth))
+    .style("fill", "#1d2228")
 
   //y-label
   canvas
@@ -127,4 +132,5 @@ function d3Render(selection, props) {
     .attr("y", yLabelYScale(canvasWidth))
     .style("font-size", axesLabelScale(canvasWidth))
     .attr("transform", "rotate(-90)")
+    .style("fill", "#1d2228")
 }
