@@ -19,7 +19,7 @@ export default function Layout(props) {
                   location === "/" ? "nav-link-active" : ""
                 }`}
               >
-                first example
+                responsive bar chart
               </li>
             </Link>
             <Link to="/second">
