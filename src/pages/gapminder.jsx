@@ -60,50 +60,6 @@ function d3Render(selection, { index }) {
     country => country.income && country.life_exp
   )
 
-  const maxExpYear = data.reduce((maxExp, current) => {
-    const max = current.countries
-      .filter(country => country.income && country.life_exp)
-      .reduce(
-        (smallMax, country) =>
-          country.life_exp > smallMax ? country.life_exp : smallMax,
-        0
-      )
-
-    return max > maxExp ? max : maxExp
-  }, 0)
-
-  const maxGDP = data.reduce((maxExp, current) => {
-    const max = current.countries
-      .filter(country => country.income && country.life_exp)
-      .reduce(
-        (smallMax, country) =>
-          country.income > smallMax ? country.income : smallMax,
-        0
-      )
-
-    return max > maxExp ? max : maxExp
-  }, 0)
-
-  const maxPopulation = data.reduce((maxExp, current) => {
-    const max = current.countries
-      .filter(country => country.income && country.life_exp)
-      .reduce(
-        (smallMax, country) =>
-          country.population > smallMax ? country.population : smallMax,
-        0
-      )
-
-    return max > maxExp ? max : maxExp
-  }, 0)
-
-  const continents = data[0].countries.reduce(
-    (continents, country) =>
-      continents.includes(country.continent)
-        ? continents
-        : [...continents, country.continent],
-    []
-  )
-
   //scales
   const xScale = d3
     .scaleLog()
@@ -184,11 +140,7 @@ function d3Render(selection, { index }) {
         .attr("x", "60%")
         .attr("y", canvasInnerHeight - 40),
 
-    update =>
-      update
-        .transition()
-        .duration(100)
-        .text(`year ${year}`)
+    update => update.text(`year ${year}`)
   )
 
   //title
@@ -218,3 +170,47 @@ function d3Render(selection, { index }) {
     .attr("transform", "rotate(-90)")
     .style("fill", "#1d2228")
 }
+
+const maxExpYear = data.reduce((maxExp, current) => {
+  const max = current.countries
+    .filter(country => country.income && country.life_exp)
+    .reduce(
+      (smallMax, country) =>
+        country.life_exp > smallMax ? country.life_exp : smallMax,
+      0
+    )
+
+  return max > maxExp ? max : maxExp
+}, 0)
+
+const maxGDP = data.reduce((maxExp, current) => {
+  const max = current.countries
+    .filter(country => country.income && country.life_exp)
+    .reduce(
+      (smallMax, country) =>
+        country.income > smallMax ? country.income : smallMax,
+      0
+    )
+
+  return max > maxExp ? max : maxExp
+}, 0)
+
+const maxPopulation = data.reduce((maxExp, current) => {
+  const max = current.countries
+    .filter(country => country.income && country.life_exp)
+    .reduce(
+      (smallMax, country) =>
+        country.population > smallMax ? country.population : smallMax,
+      0
+    )
+
+  return max > maxExp ? max : maxExp
+}, 0)
+
+const continents = data[0].countries.reduce(
+  (continents, country) =>
+    continents.includes(country.continent)
+      ? continents
+      : [...continents, country.continent],
+  []
+)
