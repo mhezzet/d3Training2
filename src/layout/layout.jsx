@@ -24,13 +24,13 @@ export default function Layout(props) {
                 responsive bar chart
               </li>
             </Link>
-            <Link to="/second">
+            <Link to="/gapminder">
               <li
                 className={`nav-link ${
-                  location === "/second" ? "nav-link-active" : ""
+                  location === "/gapminder" ? "nav-link-active" : ""
                 }`}
               >
-                second example
+                Gap Minder
               </li>
             </Link>
             <Link to="/third">

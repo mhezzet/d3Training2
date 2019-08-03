@@ -22,10 +22,13 @@ export default function IndexPage() {
 
 function d3Render(selection, props) {
   if (!selection.current) return
+
   const canvas = d3.select(selection.current)
   canvas.selectAll("*").remove() //flush the canvas
   const canvasWidth = selection.current.clientWidth
   const canvasHeight = selection.current.clientHeight
+
+  const yValue = d => +d.profit
 
   // margin convention
   const canvasPadding = { top: 150, bottom: 100, left: 150, right: 10 }
@@ -45,7 +48,7 @@ function d3Render(selection, props) {
     .paddingInner(0.3)
   const yScale = d3
     .scaleLinear()
-    .domain([0, d3.max(revenues, d => d.revenue)])
+    .domain([0, d3.max(revenues, yValue)])
     .range([canvasInnerHeight, 0])
     .nice()
   const titleScale = d3
@@ -102,8 +105,8 @@ function d3Render(selection, props) {
     .append("rect")
     .attr("x", d => xScale(d.month))
     .attr("width", xScale.bandwidth())
-    .attr("height", d => canvasInnerHeight - yScale(d.revenue))
-    .attr("y", d => yScale(d.revenue))
+    .attr("height", d => canvasInnerHeight - yScale(yValue(d)))
+    .attr("y", d => yScale(yValue(d)))
     .style("fill", "#1d2228")
 
   //title
@@ -118,7 +121,7 @@ function d3Render(selection, props) {
   //x-label
   canvas
     .append("text")
-    .text("month")
+    .text("Month")
     .attr("x", "50%")
     .attr("y", canvasHeight - xLabelYScale(canvasWidth))
     .style("font-size", axesLabelScale(canvasWidth))
