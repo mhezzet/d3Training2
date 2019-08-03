@@ -1,23 +1,61 @@
 import React, { useRef, useEffect, useState } from "react"
 import * as d3 from "d3"
+import tip from "d3-tip"
 import Layout from "../layout/layout"
 import data from "../data/countries.json"
 
 export default function GapMinder() {
   const [index, setIndex] = useState(0)
+  const [loop, setLoop] = useState(null)
   const svg = useRef(null)
 
   useEffect(() => {
     d3Render(svg, { index })
   }, [svg.current, index])
 
+  const startInterval = () => {
+    const interval = setInterval(
+      () => setIndex(i => (i !== 214 ? i + 1 : 0)),
+      100
+    )
+    setLoop(interval)
+  }
+
+  const stopInterval = () => {
+    clearInterval(loop)
+    setLoop(null)
+  }
+
   useEffect(() => {
-    setInterval(() => setIndex(i => (i !== 214 ? i + 1 : 0)), 100)
+    startInterval()
   }, [])
 
   return (
     <Layout>
       <svg ref={svg} width="700" height="500" />
+      <div className="flex justify-between items-center">
+        <button
+          className="customButton"
+          onClick={() => (loop ? stopInterval() : startInterval())}
+        >
+          {loop ? "stop" : "start"}
+        </button>
+        <button className="customButton" onClick={() => setIndex(0)}>
+          reset
+        </button>
+        <label style={{ marginLeft: 7 }} htmlFor="range">
+          year
+        </label>
+        <input
+          style={{ marginLeft: 7 }}
+          id="range"
+          onChange={e => setIndex(+e.target.value)}
+          value={index}
+          type="range"
+          min="0"
+          max="213"
+        />
+      </div>
     </Layout>
   )
 }
@@ -60,6 +98,27 @@ function d3Render(selection, { index }) {
     country => country.income && country.life_exp
   )
 
+  console.log("renderiing")
+
+  //tooltip
+  const tipper = tip()
+    .attr("class", "d3-tip")
+    .html(
+      d => `
+            <strong>Country:</strong> <span style='color:tomato'>
+            ${d.country}</span><br/>
+            <strong>Continent:</strong> <span style='color:tomato'>
+            ${d.continent}</span><br/>
+            <strong>Life Expectancy:</strong> <span style='color:tomato'>
+            ${d.life_exp}</span><br/>
+            <strong>GDP Per Capita:</strong> <span style='color:tomato'>
+            ${d3.format("$,.0f")(d.income)}</span><br/>
+            <strong>Population:</strong> <span style='color:tomato'>
+            ${d3.format(",")(d.population)}</span><br/>
+            `
+    )
+  svg.call(tipper)
+
   //scales
   const xScale = d3
     .scaleLog()
@@ -77,7 +136,7 @@ function d3Render(selection, { index }) {
     .domain(continents)
     .range(d3.schemeSpectral[4])
 
-  const radiusScale = d3.scaleLinear([0, maxPopulation], [5, 40])
+  const radiusScale = d3.scaleLinear([0, maxPopulation], [5, 45])
 
   //axes
   const xAxis = d3
@@ -104,29 +163,60 @@ function d3Render(selection, { index }) {
     .style("font-size", "larg")
 
   //circles
-  const circles = canvas.selectAll("circle").data(countries, d => d.country)
+  const circles = canvas.selectAll(".circler").data(countries, d => d.country)
 
   circles.join(
     enter =>
       enter
         .append("circle")
+        .attr("class", "circler")
         .attr("cx", d => xScale(d.income))
         .attr("cy", d => yScale(d.life_exp))
         .attr("r", d => radiusScale(d.population))
         .style("fill", d => colorScale(d.continent))
-        .style("opacity", "0.3"),
+        .style("opacity", "0.3")
+        .on("mouseover", tipper.show)
+        .on("mouseout", tipper.hide),
     update =>
       update
         .transition()
         .duration(100)
-        .attr("cx", d => {
-          return xScale(d.income)
-        })
+        .attr("cx", d => xScale(d.income))
         .attr("cy", d => yScale(d.life_exp))
         .attr("r", d => radiusScale(d.population))
         .style("fill", d => colorScale(d.continent))
         .style("opacity", "0.3")
   )
+
+  //color legend
+  const legendsContainer = canvas
+    .selectAll(".legends")
+    .data([null])
+    .enter()
+    .append("g")
+    .attr("class", "legends")
+    .attr("transform", "translate(430,120)")
+
+  const legends = legendsContainer.selectAll(".legend").data(continents)
+  legends.exit().remove()
+
+  const legendEnter = legends
+    .enter()
+    .append("g")
+    .attr("class", "legend")
+    .attr("transform", (_, i) => `translate(0,${i * 20})`)
+
+  legendEnter
+    .append("circle")
+    .merge(legends.selectAll("circle"))
+    .attr("r", 5)
+    .attr("fill", colorScale)
+  legendEnter
+    .append("text")
+    .merge(legends.selectAll("text"))
+    .attr("dy", "0.32em")
+    .text(d => d)
+    .attr("x", 15)
 
   //year
   const yearText = canvas.selectAll(".year").data([null])
@@ -138,7 +228,8 @@ function d3Render(selection, { index }) {
         .text(`year ${year}`)
         .attr("class", "year")
         .attr("x", "60%")
-        .attr("y", canvasInnerHeight - 40),
+        .attr("y", canvasInnerHeight - 10)
+        .style("font-size", "x-large"),
 
     update => update.text(`year ${year}`)
   )
@@ -165,12 +256,13 @@ function d3Render(selection, { index }) {
     .append("text")
     .text(yLabelText)
     .attr("x", -200)
-    .attr("y", -70)
+    .attr("y", -40)
     .style("font-size", "large")
     .attr("transform", "rotate(-90)")
     .style("fill", "#1d2228")
 }
 
+//data
 const maxExpYear = data.reduce((maxExp, current) => {
   const max = current.countries
     .filter(country => country.income && country.life_exp)
