@@ -98,8 +98,6 @@ function d3Render(selection, { index }) {
     country => country.income && country.life_exp
   )
 
-  console.log("renderiing")
-
   //tooltip
   const tipper = tip()
     .attr("class", "d3-tip")
@@ -117,7 +115,8 @@ function d3Render(selection, { index }) {
             ${d3.format(",")(d.population)}</span><br/>
             `
     )
-  svg.call(tipper)
+
+  canvas.call(tipper)
 
   //scales
   const xScale = d3

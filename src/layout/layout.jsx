@@ -33,13 +33,13 @@ export default function Layout(props) {
                 Gap Minder
               </li>
             </Link>
-            <Link to="/third">
+            <Link to="/coinstats">
               <li
                 className={`nav-link ${
-                  location === "/third" ? "nav-link-active" : ""
+                  location === "/coinstats" ? "nav-link-active" : ""
                 }`}
               >
-                third example
+                Coin Stats
               </li>
             </Link>
           </ul>
