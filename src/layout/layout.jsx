@@ -42,6 +42,15 @@ export default function Layout(props) {
                 Coin Stats
               </li>
             </Link>
+            <Link to="/forcedirected">
+              <li
+                className={`nav-link ${
+                  location === "/forcedirected" ? "nav-link-active" : ""
+                }`}
+              >
+                Force Directed Graph
+              </li>
+            </Link>
           </ul>
         </div>
         <div className="main">{props.children}</div>
