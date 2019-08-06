@@ -3,7 +3,7 @@ import * as d3 from "d3"
 import Layout from "../layout/layout"
 import data from "../data/miserables.json"
 
-export default function ForceDirected() {
+export default function ForceDirected({ location }) {
   const svg = useRef(null)
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export default function ForceDirected() {
   }, [svg.current])
 
   return (
-    <Layout>
+    <Layout location={location}>
       <h1 className="mt-4 text-2xl">Force Directed Graph</h1>
       <svg style={{ marginTop: 50 }} ref={svg} width="800" height="700" />
     </Layout>

@@ -3,7 +3,7 @@ import SEO from "../components/seo"
 import { Link } from "gatsby"
 
 export default function Layout(props) {
-  const location = window.location.pathname
+  const location = props.location.pathname
   const title = location.substring(1)
     ? location.substring(1)
     : "responsive bar chart"

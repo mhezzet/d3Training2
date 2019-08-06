@@ -3,8 +3,9 @@ import * as d3 from "d3"
 import Layout from "../layout/layout"
 import revenues from "../data/revenues.json"
 
-export default function IndexPage() {
+export default function IndexPage({ location }) {
   const svg = useRef(null)
+  console.log()
 
   useEffect(() => {
     d3Render(svg)
@@ -14,7 +15,7 @@ export default function IndexPage() {
   }, [svg.current])
 
   return (
-    <Layout>
+    <Layout location={location}>
       <svg ref={svg} width="100%" height="100vh" />
     </Layout>
   )

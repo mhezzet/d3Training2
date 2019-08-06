@@ -4,7 +4,7 @@ import tip from "d3-tip"
 import Layout from "../layout/layout"
 import data from "../data/countries.json"
 
-export default function GapMinder() {
+export default function GapMinder({ location }) {
   const [index, setIndex] = useState(0)
   const [loop, setLoop] = useState(null)
   const svg = useRef(null)
@@ -31,7 +31,7 @@ export default function GapMinder() {
   }, [])
 
   return (
-    <Layout>
+    <Layout location={location}>
       <svg ref={svg} width="700" height="500" />
       <div className="flex justify-between items-center">
         <button

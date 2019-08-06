@@ -10,7 +10,7 @@ import moment from "moment"
 const createSliderWithTooltip = Slider.createSliderWithTooltip
 const Range = createSliderWithTooltip(Slider.Range)
 
-export default function CoinStats() {
+export default function CoinStats({ location }) {
   const svg = useRef(null)
   const [selectedCoin, setSelectedCoin] = useState(() =>
     data.bitcoin
@@ -63,7 +63,7 @@ export default function CoinStats() {
   // console.log(moment(TimeScale.invert(range[1])).format("YYYY MM DD"))
 
   return (
-    <Layout>
+    <Layout location={location}>
       <div className="flex justify-center items-center w-1/2 mt-20 mb-10">
         <span className="mr-2">Date </span>
         <Range
